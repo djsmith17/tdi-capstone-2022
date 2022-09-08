@@ -1,5 +1,4 @@
 import os
-from os.path import exists
 import requests
 import dill
 
@@ -31,7 +30,7 @@ class RecEngFileMgmt():
 
     def loadGameData(self):
         gamesDict = []
-        if exists(self.pkd_Game_path):
+        if os.path.exists(self.pkd_Game_path):
             gamesDict = self.loadPickledFile(self.pkd_Game_path)
         else:
             gamesDict = self.downloadAPIData()

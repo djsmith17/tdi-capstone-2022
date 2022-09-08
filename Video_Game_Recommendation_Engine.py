@@ -7,10 +7,23 @@ from RecEngFileMgmt import RecEngFileMgmt
 if 'FiMg' not in st.session_state:
     st.session_state.FiMg = 0
 
+if 'Gm1Title' not in st.session_state:
+    st.session_state.Gm1Title = 'Game 1'
+
+if 'Gm2Title' not in st.session_state:
+    st.session_state.Gm2Title = 'Game 2'
+
+if 'Gm3Title' not in st.session_state:
+    st.session_state.Gm3Title = 'Game 3'
+
 st.header('Video Game Recommendation Engine\nAuthor: Dante J. Smith, PhD')
 
 @st.experimental_memo
 def startUpScripts():
+
+    # Set Secrets
+    # from setStreamlitEnvVar import setTwitchEnvVar
+    # setTwitchEnvVar()
 
     # Pull out Env Var
     client_ID  = os.environ.get('TWITCH_CLIENTID', 'NA')
