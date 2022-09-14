@@ -7,17 +7,12 @@ class IGDBInteraction():
     def __init__(self):
 
         self.playedGamesIdxList =  [0] * 3
-
         self.dispFeatures = ['id', 'name', 'themes', 'genres', 'total_rating']
-
-        self.oauth2URL = 'https://id.twitch.tv/oauth2/token'
-        self.gamesURL  = 'https://api.igdb.com/v4/games'
 
     def selectPlayedGame(self, gameStr, gameNum):
 
         # Search for Game Text
         gameIdx = self.searchGame(gameStr)
-        print(gameIdx)
 
         # Return JSON for that game listing and save it in a dictionary for ref.
         self.playedGamesIdxList[gameNum-1] = gameIdx

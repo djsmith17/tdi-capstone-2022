@@ -58,7 +58,7 @@ class RecEngFileMgmt():
         set_limit = 500
         stop = False
         while not stop:
-            BODY = f'fields *; limit {set_limit}; offset {set_offset};'
+            BODY = f'fields *; limit {set_limit}; offset {set_offset}; where parent_game = null;'
             thisbatch = requests.post(self.gamesURL, 
                                     headers = headers, 
                                     data = BODY).json()
