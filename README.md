@@ -28,3 +28,5 @@ To provide accessability to the outcomes of the process here are some visualizat
 
 ## Scatter plot of 'User Rating' vs 'Critic Rating' for Action Adventure Games
 ![scatterplot](images/visualization_ratings.png?raw=true "Scatterplot")
+
+* Note, not all games have received both a User Score and Critic Score. This scatterplot shows the game entries that have a value recorded for each feature
