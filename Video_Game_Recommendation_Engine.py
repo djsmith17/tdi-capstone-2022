@@ -61,12 +61,12 @@ def startUpScripts():
     GRE.RecEng_FeatureFit()
     GRE.CreateSummaryInfo()
 
-    st.session_state.GameDB = GRE.gameDF
-    st.session_state.themeCountD = GRE.themeCountD
-    st.session_state.genreCountD = GRE.genreCountD
     return GRE
 
 GRE = startUpScripts()
+st.session_state.GameDB = GRE.gameDF
+st.session_state.themeCountD = GRE.themeCountD
+st.session_state.genreCountD = GRE.genreCountD
 
 # Previously played Games Input BOX
 # Please provide the names of three games that you have enjoyed recently!
