@@ -9,9 +9,6 @@ aboutDescription = '''
 # About this project  
 This project is the culmination of the work that I have performed for the completion of my data science certificate for [The Data Incubator](https://www.thedataincubator.com/) bootcamp. Specifically, this data science exploration is a Video Game Recommendation Engine. Harnessing data from the International Games Database ([IGDB](https://www.igdb.com/)), my recommendation engine provides suggestions for games you should try based on previous titles that you have enjoyed playing.
 
-## Deployed Appication
-I have deployed the application on StreamLit's cloud services platform. Please give it a try and let me know what you think! [Video Game Recommendation Engine](https://djsmith17-tdi-capstone--video-game-recommendation-engine-qj8w1q.streamlitapp.com/)
-
 ## Motivation
 These days, time is short and money is tight. It is vital that your next video game purchase gives you the most bang for your buck. I want your next game purchase to be one that creates life-long memories and will not be another $60 regret.
 
@@ -23,6 +20,6 @@ The supervised machine learning tool that I have employed here is k-Nearest Neig
 
 My application starts by asking you to select three video games that you have previously enjoyed playing, and from those inputs the Recommendation engine will identify other games that are in closest proximity to the combination of features for these games.  
 
-At present this recommendation engine does not take any feedback to identify whether or not the recommendations were approrpiate, or if the games were enjoyed by the user.'''
-
+At present this recommendation engine does not take any feedback to identify whether or not the recommendations were approrpiate, or if the games were enjoyed by the user.
+'''
 st.markdown(aboutDescription, unsafe_allow_html=True)

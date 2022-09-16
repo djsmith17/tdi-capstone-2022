@@ -5,8 +5,14 @@ from IGDBInteractive import IGDBInteraction
 from RecEngFileMgmt import RecEngFileMgmt
 import gc
 
-# if 'FiMg' not in st.session_state:
-#     st.session_state.FiMg = 0
+if 'GameDB' not in st.session_state:
+    st.session_state.GameDB = pd.DataFrame()
+
+if 'themeDB' not in st.session_state:
+    st.session_state.themeDB = pd.DataFrame()
+
+if 'genreDB' not in st.session_state:
+    st.session_state.genreDB = pd.DataFrame()
 
 if 'Gm1Title' not in st.session_state:
     st.session_state.Gm1Title = 'Game 1'
@@ -40,34 +46,29 @@ def startUpScripts():
     FiMg.requestAccessToken()
     
     # Load Game Data 
-    FiMg.gamesDict = FiMg.loadGameData()
+    FiMg.loadGameData()
+    FiMg.loadGameAdjData()
     
     # Make Games Recommendation Engine (GRE)
     GRE = IGDBInteraction()
+    
     # Create games dataframe
     GRE.gameDF = pd.DataFrame(FiMg.gamesDict)
+    GRE.themeDF = pd.DataFrame(FiMg.themeDict)
+    GRE.genreDF = pd.DataFrame(FiMg.genreDict)
+    
     # Fit the Games DataFrame to a KNN 
     GRE.RecEng_FeatureFit()
 
+    st.session_state.GameDB = GRE.gameDF
+    st.session_state.themeDB = GRE.themeDF
+    st.session_state.genreDB = GRE.genreDF
     return GRE
 
-# @st.experimental_memo
-# def setGamesObj(gamesDict):
-
-
 GRE = startUpScripts()
-# GRE = setGamesObj(FiMg.gamesDict)
-
-# # Make Games Recommendation Engine (GRE)
-# GRE = IGDBInteraction()
-# # Create games dataframe
-# GRE.gameDF = pd.DataFrame(FiMg.gamesDict)
-# # Fit the Games DataFrame to a KNN 
-# GRE.RecEng_FeatureFit()
 
 # Previously played Games Input BOX
 # Please provide the names of three games that you have enjoyed recently!
-
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -82,9 +83,6 @@ with col3:
     st.header("Game #3")
     st.session_state.Gm3Title = st.text_input('', key = 'Game3')
     GRE.selectPlayedGame(st.session_state.Gm3Title, 3)
-
-# Remind ourselves what these features look like: 
-# st.dataframe(GRE.PlayedGamesDF())
 
 ComboFeatures = GRE.playedGamesIdxList[0]
 

@@ -14,13 +14,13 @@ class RecEngFileMgmt():
             os.mkdir(self.pkdFilePath)
 
         self.pkd_Game_path = os.path.join(self.pkdFilePath, 'game-API.pkd')
-
-        self.playedGamesIdxList =  [0] * 3
-
-        self.dispFeatures = ['id', 'name', 'themes', 'genres', 'total_rating']
+        self.pkd_Theme_path = os.path.join(self.pkdFilePath, 'theme-API.pkd')
+        self.pkd_Genre_path = os.path.join(self.pkdFilePath, 'genre-API.pkd')
 
         self.oauth2URL = 'https://id.twitch.tv/oauth2/token'
         self.gamesURL  = 'https://api.igdb.com/v4/games'
+        self.themeURL  = 'https://api.igdb.com/v4/themes'
+        self.genreURL  = 'https://api.igdb.com/v4/genres'
 
     def requestAccessToken(self):
         params = {'client_id': self.client_ID, 'client_secret': self.client_SEC, 'grant_type': 'client_credentials'}
@@ -33,9 +33,29 @@ class RecEngFileMgmt():
         if os.path.exists(self.pkd_Game_path):
             gamesDict = self.loadPickledFile(self.pkd_Game_path)
         else:
-            gamesDict = self.downloadAPIData()
+            gamesDict = self.downloadAPIData(self.gamesURL)
             self.savePickleFile(self.pkd_Game_path, gamesDict)
-        return gamesDict
+        
+        self.gamesDict = gamesDict
+
+    def loadGameAdjData(self):
+        themeDict = []
+        genreDict = []
+        if os.path.exists(self.pkd_Theme_path):
+            themeDict = self.loadPickledFile(self.pkd_Theme_path)
+        else:
+            themeDict = self.downloadAPIData(self.themeURL)
+            self.savePickleFile(self.pkd_Theme_path, themeDict)
+
+        if os.path.exists(self.pkd_Genre_path):
+            genreDict = self.loadPickledFile(self.pkd_Genre_path)
+        else:
+            genreDict = self.downloadAPIData(self.genreURL)
+            self.savePickleFile(self.pkd_Genre_path, genreDict)
+        
+        self.themeDict = themeDict
+        self.genreDict = genreDict
+
 
     def loadPickledFile(self, dir):
         print('Loading Pickled Data')
@@ -49,7 +69,7 @@ class RecEngFileMgmt():
         with open(dir, 'wb') as f:
             dill.dump(GameDict, f)
 
-    def downloadAPIData(self):
+    def downloadAPIData(self, URL):
         print('Download Started')
         headers = {'Client-ID': self.client_ID, 'Authorization': self.bearerAT}
 
@@ -58,8 +78,8 @@ class RecEngFileMgmt():
         set_limit = 500
         stop = False
         while not stop:
-            BODY = f'fields *; limit {set_limit}; offset {set_offset}; where parent_game = null;'
-            thisbatch = requests.post(self.gamesURL, 
+            BODY = f'fields *; limit {set_limit}; offset {set_offset};'
+            thisbatch = requests.post(URL, 
                                     headers = headers, 
                                     data = BODY).json()
             gameCollect.extend(thisbatch)
