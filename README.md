@@ -16,3 +16,15 @@ The supervised machine learning tool that I have employed here is k-Nearest Neig
 My application starts by asking you to select three video games that you have previously enjoyed playing, and from those inputs the Recommendation engine will identify other games that are in closest proximity to the combination of features for these games.  
 
 At present this recommendation engine does not take any feedback to identify whether or not the recommendations were approrpiate, or if the games were enjoyed by the user. 
+
+# Visualizations
+To provide accessability to the outcomes of the process here are some visualizations representing summary data of the dataset.
+
+## Game Themes
+![Game Themes](images/visualization_theme.png?raw=true "Bar Plot of the Game Themes")
+
+## Game Genres
+![Game Genres](images/visualization_genre.png?raw=true "Bar Plot of the Game Genre")
+
+## Scatter plot of 'User Rating' vs 'Critic Rating' for Action Adventure Games
+![scatterplot](images/visualization_ratings.png?raw=true "Scatterplot")
