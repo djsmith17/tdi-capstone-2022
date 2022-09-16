@@ -2,6 +2,7 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.neighbors import NearestNeighbors
 from DictEncoder import DictEncoder
+import itertools
 
 class IGDBInteraction():
     def __init__(self):
@@ -45,3 +46,21 @@ class IGDBInteraction():
 
     def PlayedGamesDF(self):
         return self.gameDF.iloc[self.playedGamesIdxList][self.dispFeatures]
+
+    def CreateSummaryInfo(self):
+        themeData = self.gameDF['themes']
+        genreData = self.gameDF['genres']
+        themeDataReal = themeData.dropna()
+        genreDataReal = genreData.dropna()
+
+        themeSet = set(itertools.chain.from_iterable(themeData.dropna()))
+        genreSet = set(itertools.chain.from_iterable(genreData.dropna()))
+
+        themeNames = [self.themeDF[self.themeDF['id']== x]['name'].to_string(index = False) for x in themeSet]
+        genreNames = [self.genreDF[self.genreDF['id']== x]['name'].to_string(index = False) for x in genreSet]
+
+        Counts = [sum([x in y for y in themeDataReal]) for x in themeSet]
+        self.themeCountD = {'Themes': themeNames, 'NumGames': Counts}
+
+        Counts = [sum([x in y for y in genreDataReal]) for x in genreSet]
+        self.genreCountD = {'Genres': genreNames, 'NumGames': Counts}

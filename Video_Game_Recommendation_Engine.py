@@ -8,11 +8,11 @@ import gc
 if 'GameDB' not in st.session_state:
     st.session_state.GameDB = pd.DataFrame()
 
-if 'themeDB' not in st.session_state:
-    st.session_state.themeDB = pd.DataFrame()
+if 'themeCountD' not in st.session_state:
+    st.session_state.themeCountD = {}
 
-if 'genreDB' not in st.session_state:
-    st.session_state.genreDB = pd.DataFrame()
+if 'genreCountD' not in st.session_state:
+    st.session_state.genreCountD = {}
 
 if 'Gm1Title' not in st.session_state:
     st.session_state.Gm1Title = 'Game 1'
@@ -59,10 +59,11 @@ def startUpScripts():
     
     # Fit the Games DataFrame to a KNN 
     GRE.RecEng_FeatureFit()
+    GRE.CreateSummaryInfo()
 
     st.session_state.GameDB = GRE.gameDF
-    st.session_state.themeDB = GRE.themeDF
-    st.session_state.genreDB = GRE.genreDF
+    st.session_state.themeCountD = GRE.themeCountD
+    st.session_state.genreCountD = GRE.genreCountD
     return GRE
 
 GRE = startUpScripts()
