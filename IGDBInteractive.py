@@ -2,22 +2,18 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.neighbors import NearestNeighbors
 from DictEncoder import DictEncoder
+import itertools
 
 class IGDBInteraction():
     def __init__(self):
 
         self.playedGamesIdxList =  [0] * 3
-
         self.dispFeatures = ['id', 'name', 'themes', 'genres', 'total_rating']
-
-        self.oauth2URL = 'https://id.twitch.tv/oauth2/token'
-        self.gamesURL  = 'https://api.igdb.com/v4/games'
 
     def selectPlayedGame(self, gameStr, gameNum):
 
         # Search for Game Text
         gameIdx = self.searchGame(gameStr)
-        print(gameIdx)
 
         # Return JSON for that game listing and save it in a dictionary for ref.
         self.playedGamesIdxList[gameNum-1] = gameIdx
@@ -50,3 +46,21 @@ class IGDBInteraction():
 
     def PlayedGamesDF(self):
         return self.gameDF.iloc[self.playedGamesIdxList][self.dispFeatures]
+
+    def CreateSummaryInfo(self):
+        themeData = self.gameDF['themes']
+        genreData = self.gameDF['genres']
+        themeDataReal = themeData.dropna()
+        genreDataReal = genreData.dropna()
+
+        themeSet = set(itertools.chain.from_iterable(themeData.dropna()))
+        genreSet = set(itertools.chain.from_iterable(genreData.dropna()))
+
+        themeNames = [self.themeDF[self.themeDF['id']== x]['name'].to_string(index = False) for x in themeSet]
+        genreNames = [self.genreDF[self.genreDF['id']== x]['name'].to_string(index = False) for x in genreSet]
+
+        Counts = [sum([x in y for y in themeDataReal]) for x in themeSet]
+        self.themeCountD = {'Themes': themeNames, 'NumGames': Counts}
+
+        Counts = [sum([x in y for y in genreDataReal]) for x in genreSet]
+        self.genreCountD = {'Genres': genreNames, 'NumGames': Counts}
