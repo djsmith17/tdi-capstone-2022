@@ -56,7 +56,6 @@ class RecEngFileMgmt():
         self.themeDict = themeDict
         self.genreDict = genreDict
 
-
     def loadPickledFile(self, dir):
         print('Loading Pickled Data')
         with open(dir, 'rb') as f:

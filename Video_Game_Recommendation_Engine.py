@@ -29,8 +29,8 @@ st.header('Video Game Recommendation Engine\nAuthor: Dante J. Smith, PhD')
 def startUpScripts():
 
     # Set Secrets
-    # from setStreamlitEnvVar import setTwitchEnvVar
-    # setTwitchEnvVar()
+    # from setEnvVar import setEnvVar
+    # setEnvVar()
 
     # Pull out Env Var
     client_ID  = os.environ.get('TWITCH_CLIENTID', 'NA')
