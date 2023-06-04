@@ -2,7 +2,7 @@ import os
 import requests
 import dill
 
-class RecEngFileMgmt():
+class API_Mgmt():
     def __init__(self, client_ID, client_SEC):
         self.client_ID = client_ID
         self.client_SEC = client_SEC
