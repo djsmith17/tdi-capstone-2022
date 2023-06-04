@@ -14,7 +14,6 @@ class IGDBInteraction():
 
         # Search for Game Text
         gameIdx = self.searchGame(gameStr)
-
         # Return JSON for that game listing and save it in a dictionary for ref.
         self.playedGamesIdxList[gameNum-1] = gameIdx
 
@@ -48,19 +47,25 @@ class IGDBInteraction():
         return self.gameDF.iloc[self.playedGamesIdxList][self.dispFeatures]
 
     def CreateSummaryInfo(self):
-        themeData = self.gameDF['themes']
-        genreData = self.gameDF['genres']
-        themeDataReal = themeData.dropna()
-        genreDataReal = genreData.dropna()
+        # Start creating some summary data for the visualizations. 
+        # First let's find how many games of each theme/genre there are
+        
+        # Grab theme and genre data and drop the NA values
+        themeData = self.gameDF['themes'].dropna()
+        genreData = self.gameDF['genres'].dropna()
 
-        themeSet = set(itertools.chain.from_iterable(themeData.dropna()))
-        genreSet = set(itertools.chain.from_iterable(genreData.dropna()))
+        # Find sets of theme/genre included in the database
+        themeSet = set(itertools.chain.from_iterable(themeData))
+        genreSet = set(itertools.chain.from_iterable(genreData))
 
+        # Convert the category numbers to category names
         themeNames = [self.themeDF[self.themeDF['id']== x]['name'].to_string(index = False) for x in themeSet]
         genreNames = [self.genreDF[self.genreDF['id']== x]['name'].to_string(index = False) for x in genreSet]
 
-        Counts = [sum([x in y for y in themeDataReal]) for x in themeSet]
+        # Find theme counts and put it into a dataframe
+        Counts = [sum([x in y for y in themeData]) for x in themeSet]
         self.themeCountD = {'Themes': themeNames, 'NumGames': Counts}
 
-        Counts = [sum([x in y for y in genreDataReal]) for x in genreSet]
+        # Find genre counts and put it into a dataframe
+        Counts = [sum([x in y for y in genreData]) for x in genreSet]
         self.genreCountD = {'Genres': genreNames, 'NumGames': Counts}
