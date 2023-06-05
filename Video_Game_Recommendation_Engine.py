@@ -2,7 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 from IGDBInteractive import IGDBInteraction
-from RecEngFileMgmt import RecEngFileMgmt
+from API_Mgmt import API_Mgmt
 import gc
 
 if 'GameDB' not in st.session_state:
@@ -31,34 +31,23 @@ st.header('Video Game Recommendation Engine\nAuthor: Dante J. Smith, PhD')
 @st.cache_data
 def startUpScripts():
 
-    # Set Secrets
-    from setStreamlitEnvVar import setTwitchEnvVar
-    setTwitchEnvVar()
-
-    # Pull out Env Var
-    client_ID  = os.environ.get('TWITCH_CLIENTID', 'NA')
-    client_SEC = os.environ.get('TWITCH_CLIENTSEC', 'NA')
-
-    if (client_ID == 'NA') | (client_SEC == 'NA'):
-        print('Could not find secret env variables')
-
-    # Set up script for file managements
-    FiMg = RecEngFileMgmt(client_ID, client_SEC)
+    # Set up API magagement class
+    apim = API_Mgmt()
     
     # Request Access Token
-    FiMg.requestAccessToken()
+    apim.requestAccessToken()
     
     # Load Game Data 
-    FiMg.loadGameData()
-    FiMg.loadGameAdjData()
+    apim.loadGameData()
+    apim.loadGameAdjData()
     
     # Make Games Recommendation Engine (GRE)
     GRE = IGDBInteraction()
     
     # Create games dataframe
-    GRE.gameDF = pd.DataFrame(FiMg.gamesDict)
-    GRE.themeDF = pd.DataFrame(FiMg.themeDict)
-    GRE.genreDF = pd.DataFrame(FiMg.genreDict)
+    GRE.gameDF = pd.DataFrame(apim.gamesDict)
+    GRE.themeDF = pd.DataFrame(apim.themeDict)
+    GRE.genreDF = pd.DataFrame(apim.genreDict)
     
     # Fit the Games DataFrame to a KNN 
     GRE.RecEng_FeatureFit()

@@ -3,7 +3,20 @@ import requests
 import dill
 
 class API_Mgmt():
-    def __init__(self, client_ID, client_SEC):
+    # This class handles the API environment and calls required to 
+    # drive the analytics present in the data app
+    def __init__(self):
+
+        client_ID  = os.environ.get('TWITCH_CLIENTID', 'Not Found')
+        client_SEC = os.environ.get('TWITCH_CLIENTSEC', 'Not Found')
+
+        if (client_ID == 'Not Found') | (client_SEC == 'Not Found'):
+            # Call up API secrets from txt file if not already found
+            print('Environment Variables not found ')
+            client_ID, client_SEC = self.setEnvVar()
+        else:
+            print('Environment Variables found')
+
         self.client_ID = client_ID
         self.client_SEC = client_SEC
 
@@ -21,6 +34,19 @@ class API_Mgmt():
         self.gamesURL  = 'https://api.igdb.com/v4/games'
         self.themeURL  = 'https://api.igdb.com/v4/themes'
         self.genreURL  = 'https://api.igdb.com/v4/genres'
+
+    def setEnvVar(self):
+        APIFile = os.path.dirname(__file__) + '/APIKEY_TWITCH.txt'
+        f = open(APIFile, 'r')
+        client_ID = str(f.readline()).strip()
+        client_SEC = str(f.readline()).strip()
+        f.close()
+
+        print('Setting API Environment Variables\n')
+        os.environ['TWITCH_CLIENTID']  = str(client_ID)
+        os.environ['TWITCH_CLIENTSEC'] = str(client_SEC)
+
+        return client_ID, client_SEC
 
     def requestAccessToken(self):
         params = {'client_id': self.client_ID, 'client_secret': self.client_SEC, 'grant_type': 'client_credentials'}
