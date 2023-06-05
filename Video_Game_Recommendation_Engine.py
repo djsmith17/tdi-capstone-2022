@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import pandas as pd
 from IGDBInteractive import IGDBInteraction
@@ -69,17 +68,23 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.header("Game #1")
-    st.session_state.Gm1Title = st.text_input('', key = 'Game1')
+    st.session_state.Gm1Title = st.text_input(label ='Game1_input', 
+                                              key = 'Game1_input', 
+                                              label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm1Title, 1)
     displayGameInfo(st.session_state.Gm1Title)
 with col2:
     st.header("Game #2")
-    st.session_state.Gm2Title = st.text_input('', key = 'Game2')
+    st.session_state.Gm2Title = st.text_input(label ='Game2_input', 
+                                              key = 'Game2_input', 
+                                              label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm2Title, 2)
     displayGameInfo(st.session_state.Gm2Title)
 with col3:
     st.header("Game #3")
-    st.session_state.Gm3Title = st.text_input('', key = 'Game3')
+    st.session_state.Gm3Title = st.text_input(label ='Game3_input', 
+                                              key = 'Game3_input', 
+                                              label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm3Title, 3)
     displayGameInfo(st.session_state.Gm3Title)
 
