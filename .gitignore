@@ -2,3 +2,4 @@
 *.pkd
 APIKEY_TWITCH.txt
 TwitchAPICallProto.ipynb
+/.venv
