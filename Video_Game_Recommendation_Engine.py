@@ -4,25 +4,15 @@ from IGDBInteractive import IGDBInteraction
 from API_Mgmt import API_Mgmt
 import gc
 
-if 'GameDB' not in st.session_state:
+if 'init' not in st.session_state:
+    st.session_state.init = True
     st.session_state.GameDB = pd.DataFrame()
-
-if 'themeCountD' not in st.session_state:
     st.session_state.themeCountD = {}
-
-if 'genreCountD' not in st.session_state:
     st.session_state.genreCountD = {}
 
-if 'Gm1Title' not in st.session_state:
     st.session_state.Gm1Title = 'Game 1'
-
-if 'Gm2Title' not in st.session_state:
     st.session_state.Gm2Title = 'Game 2'
-
-if 'Gm3Title' not in st.session_state:
     st.session_state.Gm3Title = 'Game 3'
-
-if 'RecDF' not in st.session_state:
     st.session_state.RecDF = pd.DataFrame()
 
 st.header('Video Game Recommendation Engine\nAuthor: Dante J. Smith, PhD')
@@ -32,23 +22,23 @@ def startUpScripts():
 
     # Set up API magagement class
     apim = API_Mgmt()
-    
+
     # Request Access Token
     apim.requestAccessToken()
-    
-    # Load Game Data 
+
+    # Load Game Data
     apim.loadGameData()
     apim.loadGameAdjData()
-    
+
     # Make Games Recommendation Engine (GRE)
     GRE = IGDBInteraction()
-    
+
     # Create games dataframe
     GRE.gameDF = pd.DataFrame(apim.gamesDict)
     GRE.themeDF = pd.DataFrame(apim.themeDict)
     GRE.genreDF = pd.DataFrame(apim.genreDict)
-    
-    # Fit the Games DataFrame to a KNN 
+
+    # Fit the Games DataFrame to a KNN
     GRE.RecEng_FeatureFit()
     GRE.CreateSummaryInfo()
 
@@ -68,22 +58,22 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     st.header("Game #1")
-    st.session_state.Gm1Title = st.text_input(label ='Game1_input', 
-                                              key = 'Game1_input', 
+    st.session_state.Gm1Title = st.text_input(label = 'Game1_input',
+                                              key = 'Game1_input',
                                               label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm1Title, 1)
     displayGameInfo(st.session_state.Gm1Title)
 with col2:
     st.header("Game #2")
-    st.session_state.Gm2Title = st.text_input(label ='Game2_input', 
-                                              key = 'Game2_input', 
+    st.session_state.Gm2Title = st.text_input(label = 'Game2_input',
+                                              key = 'Game2_input',
                                               label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm2Title, 2)
     displayGameInfo(st.session_state.Gm2Title)
 with col3:
     st.header("Game #3")
-    st.session_state.Gm3Title = st.text_input(label ='Game3_input', 
-                                              key = 'Game3_input', 
+    st.session_state.Gm3Title = st.text_input(label = 'Game3_input',
+                                              key = 'Game3_input',
                                               label_visibility = 'hidden')
     GRE.selectPlayedGame(st.session_state.Gm3Title, 3)
     displayGameInfo(st.session_state.Gm3Title)
