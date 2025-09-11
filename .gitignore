@@ -1,3 +1,4 @@
 *.pyc
 *.pkd
 APIKEY_TWITCH.txt
+TwitchAPICallProto.ipynb
