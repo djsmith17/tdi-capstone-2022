@@ -23,16 +23,16 @@ def startUpScripts():
     apim = ApiWrapper()
 
     # Load Game Data
-    apim.loadGameData()
-    apim.loadGameAdjData()
+    apim.load_game_data()
+    apim.load_game_adj_data()
 
     # Make Games Recommendation Engine (GRE)
     GRE = IGDBInteraction()
 
     # Create games dataframe
-    GRE.gameDF = pd.DataFrame(apim.gamesDict)
-    GRE.themeDF = pd.DataFrame(apim.themeDict)
-    GRE.genreDF = pd.DataFrame(apim.genreDict)
+    GRE.gameDF = pd.DataFrame(apim.games_dict)
+    GRE.themeDF = pd.DataFrame(apim.theme_dict)
+    GRE.genreDF = pd.DataFrame(apim.genre_dict)
 
     # Fit the Games DataFrame to a KNN
     GRE.RecEng_FeatureFit()
