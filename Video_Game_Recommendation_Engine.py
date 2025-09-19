@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from IGDBInteractive import IGDBInteraction
-from api_wrapper import ApiWrapper
+from api.api_wrapper import ApiWrapper
 
 if 'init' not in st.session_state:
     st.session_state.init = True
