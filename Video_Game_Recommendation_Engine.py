@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 from IGDBInteractive import IGDBInteraction
-from API_Mgmt import API_Mgmt
-import gc
+from api_wrapper import ApiWrapper
 
 if 'init' not in st.session_state:
     st.session_state.init = True
@@ -20,8 +19,8 @@ st.header('Video Game Recommendation Engine\nAuthor: Dante J. Smith, PhD')
 @st.cache_data
 def startUpScripts():
 
-    # Set up API magagement class
-    apim = API_Mgmt()
+    # Set up API wrapper
+    apim = ApiWrapper()
 
     # Request Access Token
     apim.requestAccessToken()

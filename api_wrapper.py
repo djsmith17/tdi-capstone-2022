@@ -2,9 +2,11 @@ import os
 import requests
 import dill
 
-class API_Mgmt():
-    # This class handles the API environment and calls required to 
-    # drive the analytics present in the data app
+class ApiWrapper:
+    '''
+    This class handles the API environment and calls required to 
+    drive the analytics present in the data app
+    '''
     def __init__(self):
 
         client_ID  = os.environ.get('TWITCH_CLIENTID', 'Not Found')
