@@ -9,18 +9,8 @@ class ApiWrapper:
     '''
     def __init__(self):
 
-        client_ID  = os.environ.get('TWITCH_CLIENTID', 'Not Found')
-        client_SEC = os.environ.get('TWITCH_CLIENTSEC', 'Not Found')
-
-        if (client_ID == 'Not Found') | (client_SEC == 'Not Found'):
-            # Call up API secrets from txt file if not already found
-            print('Environment Variables not found ')
-            client_ID, client_SEC = self.setEnvVar()
-        else:
-            print('Environment Variables found')
-
-        self.client_ID = client_ID
-        self.client_SEC = client_SEC
+        # Set/get environment variables for Twitch API
+        self._set_env_var()
 
         self.filePath = os.path.dirname(__file__)
         self.pkdFilePath = os.path.join(self.filePath, 'pkd')
@@ -37,21 +27,43 @@ class ApiWrapper:
         self.themeURL  = 'https://api.igdb.com/v4/themes'
         self.genreURL  = 'https://api.igdb.com/v4/genres'
 
-    def setEnvVar(self):
-        APIFile = os.path.dirname(__file__) + '/APIKEY_TWITCH.txt'
-        f = open(APIFile, 'r')
-        client_ID = str(f.readline()).strip()
-        client_SEC = str(f.readline()).strip()
-        f.close()
+    def _set_env_var(self):
+        '''
+        Sets the values of the Twitch API environment variables.
 
-        print('Setting API Environment Variables\n')
-        os.environ['TWITCH_CLIENTID']  = str(client_ID)
-        os.environ['TWITCH_CLIENTSEC'] = str(client_SEC)
+        Arguments:
+            None
 
-        return client_ID, client_SEC
+        Returns:
+            None
+        '''
+
+        # Check for existence of client ID and SECRET in environment variables
+        client_id = os.environ.get('TWITCH_CLIENTID', 'Not Found')
+        client_sc = os.environ.get('TWITCH_CLIENTSEC', 'Not Found')
+
+        if (client_id == 'Not Found') | (client_sc == 'Not Found'):
+            # Call up API secrets from txt file if not already found
+            print('Environment Variables not found ')
+
+            api_file = os.path.dirname(__file__) + '/APIKEY_TWITCH.txt'
+            f = open(api_file, 'r', encoding='utf-8')
+            client_id = str(f.readline()).strip()
+            client_sc = str(f.readline()).strip()
+            f.close()
+
+            print('Setting API Environment Variables')
+            os.environ['TWITCH_CLIENTID']  = str(client_id)
+            os.environ['TWITCH_CLIENTSEC'] = str(client_sc)
+        else:
+            print('Environment Variables found')
+
+        self.client_id = client_id
+        self.client_sc = client_sc
+        print('Environment Variables Set\n')
 
     def requestAccessToken(self):
-        params = {'client_id': self.client_ID, 'client_secret': self.client_SEC, 'grant_type': 'client_credentials'}
+        params = {'client_id': self.client_id, 'client_secret': self.client_sc, 'grant_type': 'client_credentials'}
         response = requests.post(self.oauth2URL, params = params)
         self.AT = response.json()['access_token']
         self.bearerAT = 'Bearer ' + self.AT
