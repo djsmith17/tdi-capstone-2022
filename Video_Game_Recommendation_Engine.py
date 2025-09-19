@@ -3,6 +3,9 @@ import pandas as pd
 from IGDBInteractive import IGDBInteraction
 from api.api_wrapper import ApiWrapper
 
+# Set Streamlit to wide mode
+st.set_page_config(layout="wide")
+
 if 'init' not in st.session_state:
     st.session_state.init = True
     st.session_state.GameDB = pd.DataFrame()
@@ -30,20 +33,20 @@ def startUpScripts():
     GRE = IGDBInteraction()
 
     # Create games dataframe
-    GRE.gameDF = pd.DataFrame(apim.games_dict)
-    GRE.themeDF = pd.DataFrame(apim.theme_dict)
-    GRE.genreDF = pd.DataFrame(apim.genre_dict)
+    GRE.game_df = pd.DataFrame(apim.games_dict)
+    GRE.theme_df = pd.DataFrame(apim.theme_dict)
+    GRE.genre_df = pd.DataFrame(apim.genre_dict)
 
     # Fit the Games DataFrame to a KNN
     GRE.RecEng_FeatureFit()
-    GRE.CreateSummaryInfo()
+    GRE.create_summary_info()
 
     return GRE
 
 GRE = startUpScripts()
-st.session_state.GameDB = GRE.gameDF
-st.session_state.themeCountD = GRE.themeCountD
-st.session_state.genreCountD = GRE.genreCountD
+st.session_state.GameDB = GRE.game_df
+st.session_state.themeCountD = GRE.theme_count_df
+st.session_state.genreCountD = GRE.genre_count_df
 
 def displayGameInfo(title):
     st.markdown(f'#### {title}')
