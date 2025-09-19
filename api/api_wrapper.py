@@ -27,6 +27,9 @@ class ApiWrapper:
         self.themeURL  = 'https://api.igdb.com/v4/themes'
         self.genreURL  = 'https://api.igdb.com/v4/genres'
 
+        # Retrieve the Access Token
+        self._request_access_token()
+
     def _set_env_var(self):
         '''
         Sets the values of the Twitch API environment variables.
@@ -58,15 +61,23 @@ class ApiWrapper:
         else:
             print('Environment Variables found')
 
-        self.client_id = client_id
-        self.client_sc = client_sc
+        self._client_id = client_id
+        self._client_sc = client_sc
         print('Environment Variables Set\n')
 
-    def requestAccessToken(self):
-        params = {'client_id': self.client_id, 'client_secret': self.client_sc, 'grant_type': 'client_credentials'}
-        response = requests.post(self.oauth2URL, params = params)
-        self.AT = response.json()['access_token']
-        self.bearerAT = 'Bearer ' + self.AT
+    def _request_access_token(self):
+        '''
+        Requests an access token from the Twitch API.
+        '''
+        print('Requesting Access Token')
+        params = {'client_id': self._client_id,
+                  'client_secret': self._client_sc,
+                  'grant_type': 'client_credentials'}
+
+        response = requests.post(self.oauth2URL, params=params, timeout=10)
+        self._access_token = response.json()['access_token']
+        self._bearer_access_token = f"Bearer {self._access_token}"
+        print('Access Token Received\n')
 
     def loadGameData(self):
         gamesDict = []
@@ -75,7 +86,7 @@ class ApiWrapper:
         else:
             gamesDict = self.downloadAPIData(self.gamesURL)
             self.savePickleFile(self.pkd_Game_path, gamesDict)
-        
+
         self.gamesDict = gamesDict
 
     def loadGameAdjData(self):
@@ -92,7 +103,7 @@ class ApiWrapper:
         else:
             genreDict = self.downloadAPIData(self.genreURL)
             self.savePickleFile(self.pkd_Genre_path, genreDict)
-        
+
         self.themeDict = themeDict
         self.genreDict = genreDict
 

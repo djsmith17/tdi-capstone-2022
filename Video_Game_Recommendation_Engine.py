@@ -22,9 +22,6 @@ def startUpScripts():
     # Set up API wrapper
     apim = ApiWrapper()
 
-    # Request Access Token
-    apim.requestAccessToken()
-
     # Load Game Data
     apim.loadGameData()
     apim.loadGameAdjData()
