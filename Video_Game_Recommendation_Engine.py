@@ -26,8 +26,8 @@ def startUpScripts():
     apim = ApiWrapper()
 
     # Load Game Data
-    apim.load_game_data()
-    apim.load_game_adj_data()
+    # apim.load_game_data()
+    # apim.load_game_adj_data()
 
     # Make Games Recommendation Engine (GRE)
     GRE = IGDBInteraction()
@@ -38,8 +38,8 @@ def startUpScripts():
     GRE.genre_df = pd.DataFrame(apim.genre_dict)
 
     # Fit the Games DataFrame to a KNN
-    GRE.RecEng_FeatureFit()
-    GRE.create_summary_info()
+    # GRE.RecEng_FeatureFit()
+    # GRE.create_summary_info()
 
     return GRE
 
@@ -79,6 +79,6 @@ with col3:
 
 ComboFeatures = GRE.playedGamesIdxList[0]
 
-if st.button('Generate Results'):
+if st.button('Generate Results', disabled=True):
     st.session_state.recDF = GRE.makeRecommendations(GRE.features[ComboFeatures])
     st.dataframe(st.session_state.recDF)

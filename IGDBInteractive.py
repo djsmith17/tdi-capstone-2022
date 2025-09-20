@@ -13,9 +13,9 @@ class IGDBInteraction():
         self.dispFeatures = ['id', 'name', 'themes', 'genres', 'total_rating']
 
         # Initialize empty dataframes to hold API data
-        self.game_df = pd.DataFrame()
-        self.theme_df = pd.DataFrame()
-        self.genre_df = pd.DataFrame()
+        self.game_df = pd.DataFrame(columns=self.dispFeatures)
+        self.theme_df = pd.DataFrame(columns=self.dispFeatures)
+        self.genre_df = pd.DataFrame(columns=self.dispFeatures)
 
         # Initialize model attributes
         self.features = None
@@ -29,6 +29,9 @@ class IGDBInteraction():
         ''' Select a game that the user has played and store its index '''
 
         # Search for Game Text
+        if self.game_df.shape[0] == 0:
+            print('Game DataFrame is empty. Cannot search for games.')
+            return
         game_idx = self.search_game(game_str)
         # Return JSON for that game listing and save it in a dictionary for ref.
         self.playedGamesIdxList[game_num-1] = game_idx

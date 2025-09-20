@@ -6,6 +6,9 @@ class ApiWrapper:
     '''
     This class handles the API environment and calls required to 
     drive the analytics present in the data app
+
+    Using the IGDB API via Twitch
+    https://api-docs.igdb.com/#about
     '''
     def __init__(self):
 
