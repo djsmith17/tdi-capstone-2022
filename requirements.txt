@@ -44,7 +44,7 @@ prompt_toolkit==3.0.52
 protobuf==6.32.0
 psutil==7.0.0
 pure_eval==0.2.3
-pyarrow==21.0.0
+pyarrow==23.0.1
 pydeck
 Pygments==2.19.2
 pyparsing==3.2.3
