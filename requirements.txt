@@ -38,7 +38,7 @@ numpy
 packaging==25.0
 pandas
 parso==0.8.5
-pillow==11.3.0
+pillow==12.2.0
 platformdirs==4.4.0
 prompt_toolkit==3.0.52
 protobuf==6.32.0
